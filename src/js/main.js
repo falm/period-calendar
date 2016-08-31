@@ -152,8 +152,7 @@ var renderCalendars = _.partialRight(_.each, renderCalender);
     $('.calender').on('click', function () {
         var link = 'moon://date/2016-09';
         alert('open:' + link);
-
-        window.open()
+        window.open(link);
     })
 
 })(
