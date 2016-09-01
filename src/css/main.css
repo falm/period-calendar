@@ -1,34 +1,37 @@
 body {
-    background: #666666;
+    background: #F4F4F2;
     margin: 0px;
     padding: 0px;
     border: 0px;
     font-family: ChalkboardSE-Light;
+    color: #3D190B;
 }
 
 .title {
     margin: 0 auto;
     text-align: center;
     margin-top: 100px;
-    color: white;
     font-size: 24px;
 }
 
 .calender {
     margin: 0 auto;
-    width: 260px;
+    width: 200px;
     margin-top: 50px;
     margin-bottom: 50px;
 }
 
 .month-text{
     font-size: 15px;
-    color: white;
+    width: 170px;
+    text-align: right;
 }
 
 .description {
     font-size: 15px;
-    color: white;
+    color: #909090;
+    clear: both;
+    width: 110px;
 }
 
 .cal-table {
@@ -44,37 +47,45 @@ ul {
     border: 0px;
 }
 
-
-
 li {
-    font-size: 12px;
+    /*font-size: px;*/
     float: left;
-    width: 30px;
-    height: 30px;
-    background: #949494;
-    margin: 2px;
-    border: 1px solid #666666;;
+    width: 20px;
+    height: 20px;
+    background: #E8E6E3;
+    margin: 1px;
+    border: 1px solid #F4F4F2;;
+    border-radius: 3px;
 }
 
-.li-true {
-    background: #666666;
+.li-blank-true {
+    background: #F4F4F2;
 }
 
 .li-heighlight-true {
-    background: white;
+    background: #BC303A;
 }
 
 .current-date {
-    font-size: 18px;
+    font-size: 6px;
     text-align: center;
-    line-height: 30px;
+    line-height: 20px;
     color: white;
 }
 
 .current-date-true {
+    color: white;
+    /*color: #222222;*/
+}
+
+.current-date-false {
     color: #222222;
 }
 
+.current-date-li {
+    margin: 0px;
+    border: 3px solid;
+}
 
 
 
