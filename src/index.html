@@ -7,52 +7,41 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <!-- Place favicon.ico in the root directory -->
-
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css">
-        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
     <body>
 
-        <div class="title">18 Days Left</div>
+        <div class="title"></div>
 
         <div class="calenders">
 
         </div>
 
         <script id="entry-template" type="text/x-handlebars-template">
-            <div class="calender calender-{{month}}">
+            <div class="calender calender-{{month}}" data-param="{{param}}">
                 <p class="month-text">{{title}}</p>
-                <div class="cal-table cal-table-{{month}}">
+                <div class="cal-table cal-table-{{month}}" >
                     {{#each data}}
-                        <ul>
-                            {{#each this}}
-                                <li class="li-{{blank}} li-heighlight-{{heighlight}}">
-                                    {{#if content}}
-                                        <div class="current-date current-date-{{heighlight}}">
-                                            {{content}}
-                                        </div>
-                                    {{/if}}
+                    <ul>
+                        {{#each this}}
+
+                            {{#if content}}
+                                <li class="li-heighlight-{{heighlight}} current-date-{{heighlight}}">
+                                    {{content}}
                                 </li>
-                            {{/each}}
-                        </ul>
+                            {{else}}
+                                <li class="li-blank-{{blank}} li-heighlight-{{heighlight}}"></li>
+                            {{/if}}
+                        {{/each}}
+                    </ul>
                     {{/each}}
                 </div>
-                <p class="description">{{description}}</p>
+                <p class="description">{{{description}}}</p>
             </div>
         </script>
 
         <div class="scripts">
-            <script src="js/vendor/jquery.js"></script>
-            <script src="js/vendor/moment-with-locales.min.js" ></script>
-            <script src="js/vendor/handlebars.js"></script>
-            <script src="js/vendor/lodash.js"></script>
-            <script src="js/plugins.js"></script>
-            <script src="js/main.js"></script>
+            <script src="bundle.js"></script>
         </div>
-
 
 
     </body>
