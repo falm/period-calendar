@@ -1,0 +1,41 @@
+{
+  "name": "period-calendar",
+  "version": "1.0.0",
+  "description": "period calendar",
+  "main": "webpack.config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "jquery": "2.2.0",
+    "lodash": "3.10.1",
+    "moment": "latest",
+    "handlebars": "4.0.5"
+  },
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.14.0",
+    "copy-webpack-plugin": "^3.0.1",
+    "css-loader": "^0.25.0",
+    "style-loader": "^0.13.1",
+    "webpack": "1.13.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/falm/period-calendar.git"
+  },
+  "keywords": [
+    "period",
+    "calendar"
+  ],
+  "author": "Jason Hou",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/falm/period-calendar/issues"
+  },
+  "homepage": "https://github.com/falm/period-calendar#readme"
+}
