@@ -1,14 +1,20 @@
 
+import $ from 'jquery';
+import Handlebars from './vendor/handlebars.js';
+import _ from 'lodash';
+import moment from 'moment/moment';
+import '../css/style.css';
+
 function getPeriods() {
-    // var result = window.AndroidMessage.getMsg();
-    return [{start_on: '2016-08-08', duration: 5}, {start_on: '2016-09-29', duration: 5}];
-    // return eval(result);
+    // var result = window.Period.getPeriods();
+    return [{start_on: '2016-08-08', duration: 5, confirm: true}, {start_on: '2016-09-29', duration: 5, predict: false}];
+    return eval(result);
 }
 
 function getTitle() {
-    var result = {title: '18 days Left'};
-    // var result = window.AndroidMessage.getMsg();
-    return result.title;
+    // var result = '18 days Left';
+    var result = window.Period.getDistance();
+    return result;
 }
 
 function processSameMonth(periods, calendar) {
@@ -29,7 +35,7 @@ function processSameMonth(periods, calendar) {
 
 function constructPeriods(periods) {
 
-    var duration = moment(periods[1].start_on).diff(moment(periods[0].start_on), 'month');
+    var duration = moment(_.last(periods).start_on).diff(moment(_.first(periods).start_on), 'month');
     return _(_.map(_.range(duration - 1), function (i) {
         var start_on = moment(periods[0].start_on).add(i + 1, 'months');
         return {start_on: start_on};
@@ -83,7 +89,7 @@ function processTerminal(period) {
 
     if (period.hasOwnProperty('duration')){
         calendar = processToday(calendar);
-        var description = period.prefix + ' Period: ' + currentDate.format('ddd, MMM D');
+        var description = period.prefix + ' Period: </br>' + currentDate.format('ddd, MMM D');
     }
 
 
@@ -163,17 +169,17 @@ var buildContext = _.flowRight(_.partialRight(_.map, processTerminal), build);
 
 var renderCalendars = _.partialRight(_.each, renderCalender);
 
-function behavior() {
+function behavior(periods) {
 
     $('.calender').on('click', function () {
-    var link = 'moon://date/' + $(this).data('param');
-    console.log('open:' + link);
-        // window.open(link);
+        var link = 'moon://date/' + $(this).data('param');
+        console.log('open:' + link);
+        window.open(link);
     });
 
-    $('.current-date-false').parent().addClass('current-date-li');
-
     $('.title').text(getTitle());
+
+    $('.li-heighlight-true').slice(-_.last(periods).duration).addClass('li-predict');
 }
 
 (function (periods) {
@@ -186,7 +192,7 @@ function behavior() {
 
     renderCalendars(contexts);
 
-    behavior();
+    behavior(periods);
 
 })(
     getPeriods()
