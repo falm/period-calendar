@@ -29,9 +29,11 @@ body {
 .description {
   font-size: 12px;
   color: #BBADA0;
-  width: 100px;
+  width: 130px;
   margin-top: 8px;
   margin-bottom: 8px; }
+  .description dd {
+    margin: 0px; }
 
 .cal-table::after {
   clear: both;
@@ -56,23 +58,22 @@ li {
   font-size: 12px;
   text-align: center;
   line-height: 18px;
-  color: white; }
+  color: #776E65; }
 
 .li-blank-true {
   background: #FAF8EF; }
 
 .li-heighlight-true {
-  background: #BE2E36; }
+  background: #BE2E36;
+  color: white; }
 
-.li-predict {
+.li-predict, .confirm-false {
   background: #E78D93; }
 
-.current-date-false {
-  color: #776E65;
+.today-true {
   margin: -1px;
-  border: 2px solid;
-  border-radius: 3px;
-  position: relative; }
+  border: #776E65 2px solid;
+  border-radius: 3px; }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
   /* iPhone 5 or lower */
