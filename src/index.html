@@ -24,18 +24,22 @@
                     <ul>
                         {{#each this}}
 
-                            {{#if content}}
-                                <li class="li-heighlight-{{heighlight}} current-date-{{heighlight}}">
-                                    {{content}}
-                                </li>
-                            {{else}}
-                                <li class="li-blank-{{blank}} li-heighlight-{{heighlight}}"></li>
-                            {{/if}}
+                        {{#if content}}
+                        <li class="li-heighlight-{{heighlight}} confirm-{{confirm}} today-{{today}}">
+                            {{content}}
+                        </li>
+                        {{else}}
+                        <li class="li-blank-{{blank}} li-heighlight-{{heighlight}} confirm-{{confirm}} today-{{today}}"></li>
+                        {{/if}}
                         {{/each}}
                     </ul>
                     {{/each}}
                 </div>
-                <p class="description">{{{description}}}</p>
+                <dl class="description">
+                    {{#each description}}
+                    <dd>{{{this}}}</dd>
+                    {{/each}}
+                </dl>
             </div>
         </script>
 
