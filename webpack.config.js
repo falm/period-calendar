@@ -28,6 +28,6 @@ module.exports = {
             { from: './src/index.html', to: 'index.html'}
         ]),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-        new webpack.optimize.UglifyJsPlugin({minimize: true})
+        // new webpack.optimize.UglifyJsPlugin({minimize: true})
     ]
 };
