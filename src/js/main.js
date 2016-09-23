@@ -3,142 +3,86 @@ import $ from 'jquery';
 import Handlebars from './vendor/handlebars.js';
 import _ from 'lodash';
 import moment from 'moment/moment';
-import '../css/style.css';
+// import '../css/style.css';
+import {Period, Context, Calendar} from './period';
+import {FORMAT} from './constants';
 
 function getPeriods() {
-    // var result = window.Period.getPeriods();
-    return [{start_on: '2016-08-08', duration: 5, confirm: true}, {start_on: '2016-09-29', duration: 5, predict: false}];
+    //var result = window.Period.getPeriods();
+     return [{start_on: '2016-08-08', duration: 5, confirm: true}, {start_on: '2016-09-29', duration: 5, predict: false}];
     return eval(result);
 }
 
 function getTitle() {
-    // var result = '18 days Left';
-    var result = window.Period.getDistance();
+    var result = '18 days Left';
+    //var result = window.Period.getDistance();
     return result;
 }
 
-function processSameMonth(periods, calendar) {
 
-    var m = moment(_.first(periods).start_on);
-    var e = moment(_.last(periods).start_on);
-    if(m.isSame(e, 'month')){
-
-        calendar = _.drop(calendar);
-        var high = function (data){
-            return assignHeightLight(data, getPeriodRange(new Date(periods[0].start_on), periods[0].duration));
-        };
-        calendar[0].data = _.flowRight(convertToTable, high, _.flatten)(calendar[0].data);
-    }
-
-    return calendar;
+function buildPeriod(start_on, today = false){
+    let period = new Period(start_on);
+    period.setIsToday(today);
+    return period;
 }
 
-function constructPeriods(periods) {
+function behavior() {
 
-    var duration = moment(_.last(periods).start_on).diff(moment(_.first(periods).start_on), 'month');
-    return _(_.map(_.range(duration - 1), function (i) {
-        var start_on = moment(periods[0].start_on).add(i + 1, 'months');
-        return {start_on: start_on};
-    })).tap(function (results) {
-        periods[0].prefix = 'Previous';
-        periods[1].prefix = 'Next';
-        results.unshift(periods[0]);
-        results.push(periods[1]);
-    }).value();
-}
-
-function crossMonth(periods) {
-    return _.reduce(periods, function (result, period) {
-
-        result.push(period);
-
-        var m = moment(period.start_on).add(period.duration - 1, 'day');
-        var end = moment(period.start_on).endOf('month');
-        if(m.isAfter(end, 'day')){
-            result.push({start_on: m.add(1, 'm').format('YYYY-M-D')})
-
-        }
-        return result;
-    }, []);
-}
-
-var build =  _.flowRight(crossMonth, constructPeriods);
-
-function processToday(calendar) {
-    return _.map(calendar, function (day) {
-        if(moment().isSame(day.date, 'day')){
-            day.content = day.day;
-        }
-        return day;
+    $('.calender').on('click', function () {
+        var link = 'moon://date/' + $(this).data('param');
+        // console.log('open:' + link);
+        window.open(link);
     });
+
+    $('.title').text(getTitle());
+
+}
+
+function renderCalender(context) {
+
+    let source = $("#entry-template").html();
+
+    let template = Handlebars.compile(source);
+
+    let html = template(context);
+
+    $('.calenders').append(html);
 }
 
 function buildCalendar(times, currentDate) {
-    return _.map(_.range(times), function (day) {
-        var date = moment([currentDate.get('year'), currentDate.get('month') , day + 1]);
-        return {content: null, day: day + 1, blank: false, heighlight: false, date: date};
-    });
+    return _.map(_.range(times), _.partial(Calendar.initializeBy, currentDate));
 }
 
-function processTerminal(period) {
-    var currentDate = moment(period.start_on);
-    var startOfMonth =  moment(period.start_on).startOf('month');
-    var endOfMonth =  moment(period.start_on).endOf('month');
+function processTerminal(start) {
+    let currentDate = moment(start);
+    let startOfMonth =  moment(start).startOf('month');
+    let endOfMonth =  moment(start).endOf('month');
 
-    var calendar = buildCalendar(endOfMonth.date(), currentDate);
+    let calendar = buildCalendar(endOfMonth.date(), currentDate);
 
-    if (period.hasOwnProperty('duration')){
-        calendar = processToday(calendar);
-        var description = period.prefix + ' Period: </br>' + currentDate.format('ddd, MMM D');
-    }
+    calendar = _.times(startOfMonth.weekday(), _.constant(Calendar.getBlank())).concat(calendar);
 
-
-    calendar = _.times(startOfMonth.weekday(), _.constant({blank: true})).concat(calendar);
-
-    calendar = assignHeightLight(calendar, getPeriodRange(new Date(period.start_on), period.duration));
     calendar = convertToTable(calendar);
-    return {
-        title: currentDate.format('MMM YYYY').toUpperCase(),
-        description: description,
-        month: currentDate.month(),
-        param: currentDate.format('YYYY-MM'),
-        data: calendar
-    };
+
+    return new Context(currentDate, calendar);
 
 }
-
-
-function getPeriodRange(date, duration) {
-    return _.map(_.range(duration), function (n) {
-        return date.getDate() + n;
-    });
-}
-
-function assignHeightLight(month, range) {
-    var first = true;
-   return _.map(month, function (day) {
-
-        if(_.includes(range, day.day)){
-            if (first){
-                day.content = day.day;
-                first = false;
-            }
-            day.heighlight = true
-        }
-
-        return day;
-    });
-}
-
-var convertToTable = _.partialRight(_.chunk, 7);
 
 function h(period, calender) {
-    var m = moment(period.start_on);
-    var e = m.add(period.duration, 'day').format('YYYY-MM-DD');
 
     return processTable(calender, function (day) {
-        if(!day.blank && day.date && day.date.isBetween(period.start_on, e)){
-            day.heighlight = true;
+        if(day.date() && day.date().isBetween(period.start_on, period.endOnFormat(), null, '[]')){
+            day.heighlight = day.heighlight || !period.isToday;
+            day.confirm = _.isUndefined(day.confirm) ? period.confirm : day.confirm;
+        }
+
+        if(day.date()){
+            day.today = day.date().isSame(moment().format(FORMAT), 'day');
+        }
+
+        if(day.date() && day.date().isSame(period.start_on, 'day')){
+            day.content = day.date().get('date');
+
         }
         return day;
     })
@@ -146,56 +90,55 @@ function h(period, calender) {
 }
 
 function processTable(table, fun) {
-     return convertToTable(_.map(_.flatten(table), fun));
+    return convertToTable(_.map(_.flatten(table), fun));
 }
 
-function crossMonthHeightLight(periods, contexts) {
-    _.last(contexts).data = h(_.last(periods), _.last(contexts).data);
-    return contexts;
+function getDuration(periods) {
+    let last = _.last(periods).date().add((_.last(periods).duration -1 || 0), 'day');
+    let num = last.startOf('month').diff(_.first(periods).date().startOf('month'), 'month', true);
+    return Math.round(num) + 1;
 }
 
-function renderCalender(context) {
-
-    var source = $("#entry-template").html();
-
-    var template = Handlebars.compile(source);
-
-    var html = template(context);
-
-    $('.calenders').append(html);
-}
-
-var buildContext = _.flowRight(_.partialRight(_.map, processTerminal), build);
-
-var renderCalendars = _.partialRight(_.each, renderCalender);
-
-function behavior(periods) {
-
-    $('.calender').on('click', function () {
-        var link = 'moon://date/' + $(this).data('param');
-        console.log('open:' + link);
-        window.open(link);
+function buildContext(periods){
+    let duration = getDuration(periods);
+    return _.map(_.range(duration), function (i) {
+        let start_on = _.first(periods).date().add(i, 'months').format(FORMAT);
+        return processTerminal(start_on);
     });
+}
 
-    $('.title').text(getTitle());
+const renderCalendars = _.partialRight(_.each, renderCalender);
 
-    $('.li-heighlight-true').slice(-_.last(periods).duration).addClass('li-predict');
+const convertToTable = _.partialRight(_.chunk, 7);
+
+const sortByDate = _.partialRight(_.sortBy, (period) => period.moment.valueOf());
+
+const appendMoments = _.partialRight(_.map, Period.fromPeriod);
+
+const appendToday = _.partialRight(_.concat, buildPeriod(moment().format(FORMAT), true));
+
+const processPeriods = _.flowRight(sortByDate, appendToday, appendMoments);
+
+function processContexts(periods){
+    let contexts = buildContext(periods);
+    return _.reduce(periods, (contexts, period) => {
+        return _.map(contexts, (context) => {
+            context.data = h(period, context.data);
+            context.setDescription(period);
+            return context;
+        });
+    }, contexts);
 }
 
 (function (periods) {
 
-    var contexts = buildContext(periods);
+    const render = _.flowRight(renderCalendars, processContexts, processPeriods);
 
-    contexts = crossMonthHeightLight(periods, contexts);
+    render(periods);
 
-    contexts = processSameMonth(periods, contexts);
-
-    renderCalendars(contexts);
-
-    behavior(periods);
+    behavior();
 
 })(
     getPeriods()
 );
-
 
