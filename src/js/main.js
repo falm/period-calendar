@@ -3,20 +3,34 @@ import $ from 'jquery';
 import Handlebars from './vendor/handlebars.js';
 import _ from 'lodash';
 import moment from 'moment/moment';
+import 'moment/locale/zh-cn'
 // import '../css/style.css';
 import {Period, Context, Calendar} from './period';
 import {FORMAT} from './constants';
 
 function getPeriods() {
-    //var result = window.Period.getPeriods();
-     return [{start_on: '2016-08-08', duration: 5, confirm: true}, {start_on: '2016-09-29', duration: 5, predict: false}];
+    let result;
+    if(process.env.NODE_ENV == 'development') {
+        result = [{start_on: '2016-08-08', duration: 5, confirm: true}, {start_on: '2016-09-29', duration: 5, predict: false}];
+    } else {
+
+        result = window.Period.getPeriods();
+    }
     return eval(result);
 }
 
 function getTitle() {
-    var result = '18 days Left';
-    //var result = window.Period.getDistance();
-    return result;
+    var result;
+    if(process.env.NODE_ENV == 'development') {
+
+        result = '距离下一次,还有 18 天';
+
+    } else {
+
+        result = window.Period.getDistance();
+    }
+
+    return result.split(',');
 }
 
 
@@ -33,8 +47,12 @@ function behavior() {
         // console.log('open:' + link);
         window.open(link);
     });
+    var title = getTitle();
+    let prefix = title[0];
+    let distance = title[1];
 
-    $('.title').text(getTitle());
+    $('.prefix').text(prefix);
+    $('.distance').text(distance);
 
 }
 
