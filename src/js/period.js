@@ -35,7 +35,7 @@ class Period{
 class Context{
 
     constructor(currentDate, calendar){
-        this.title = currentDate.format('MMM YYYY').toUpperCase();
+        this.title = currentDate.format('YYYY年MMM').toUpperCase();
         this.description = [];
         this.month = currentDate.month();
         this.param = currentDate.format('YYYY-MM');
@@ -46,7 +46,7 @@ class Context{
 
         if(this.month == period.date().get('month') && !period.isToday) {
             this.description.push(period.confirm ? PREVIOUS : EXPECTED);
-            this.description.push(period.date().format('ddd, MMM D'));
+            this.description.push(period.date().format('MMMDo, ddd'));
             this.description.push('&nbsp;');
         }
     }
