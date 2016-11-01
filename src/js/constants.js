@@ -1,8 +1,8 @@
 
 const FORMAT = 'YYYY-MM-DD';
 
-const PREVIOUS = 'Previous Period: ';
+const PREVIOUS = '上次经期: ';
 
-const EXPECTED = 'Expected Period: ';
+const EXPECTED = '预测经期: ';
 
 export {FORMAT, PREVIOUS, EXPECTED};
