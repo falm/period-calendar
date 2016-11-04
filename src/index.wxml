@@ -1,0 +1,35 @@
+
+<view class="body">
+    <text class="title">{{title}}</text>
+    <view class="containers">
+        <block wx:for="{{calendars}}" wx:for-item="calendar">
+            <template is="calendar" data="{{calendar}}" />
+        </block>
+    </view>
+</view>
+
+<template name="calendar">
+    <view class="calender calender-{{month}}" data-param="{{param}}">
+        <view class="month-text">{{title}}</view>
+        <view class="cal-table cal-table-{{month}}" >
+            <view class="ul" wx:for="{{data}}" wx:for-item="items">
+                {{#each this}}
+                <block wx:for="{{items}}" wx:for-item="item">
+                    <block wx:if="{{item.content}}">
+                        <view class="li-heighlight-{{item.heighlight}} confirm-{{item.confirm}} today-{{item.today}}">
+                            {{content}}
+                        </view>
+                    </block>
+                    <block wx:else="{{item.content}}">
+                        <view class="li-blank-{{item.blank}} li-heighlight-{{item.heighlight}} confirm-{{item.confirm}} today-{{item.today}}">
+                        </view>
+                    </block>
+                </block>
+            </view>
+            {{/each}}
+        </view>
+        <view class="description" wx:for="{{description}}" wx:for-item="desc">
+            <view>{{{desc}}}</view>
+        </view>
+    </view>
+</template>
