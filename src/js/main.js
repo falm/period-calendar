@@ -11,7 +11,7 @@ import {FORMAT} from './constants';
 function getPeriods() {
     let result;
     if(process.env.NODE_ENV == 'development') {
-        result = [{start_on: '2016-08-08', duration: 5, confirm: true}, {start_on: '2016-09-29', duration: 5, predict: false}];
+        result = [{start_on: '2017-01-08', duration: 5, confirm: true}, {start_on: '2017-02-25', duration: 5, predict: false}];
     } else {
 
         result = window.Period.getPeriods();
