@@ -1,8 +1,16 @@
-$bg_color : #FAF8EF;
+//$bg_color : #FAF8EF;
+$bg_color : #fff;
 $li_size : 16px;
+$today-border-color: #F35C20;
+$period-bg: #FE8D60;
+$predict-bg: #FEAF8F;
+$li-bg: #DFDFDF;
+$month-title-color: #9F9595;
+$li_blank: #fff;
+$prefix-font-color: #9F9595;
 
 body {
-    background: #FAF8EF;
+    background: $bg_color;
     margin: 0px;
     padding: 0px;
     border: 0px;
@@ -16,12 +24,14 @@ body {
     font-size: 26px;
     margin-top: 65px;
     margin-bottom: 65px;
-    color: #776E65;
+    //color: #776E65;
+    color: #333;
 
     .prefix {
         font-size: 20px;
         display: block;
-        color: #a2998f;
+        //color: #a2998f;
+        color: $prefix-font-color;
     }
 
     .distance {
@@ -37,7 +47,8 @@ body {
 
 .month-text {
     font-size: 15px;
-    color: #776E65;
+    color: $month-title-color;
+    //color: #776E65;
     text-align: right;
     margin-top: 8px;
     margin-bottom: 8px;
@@ -45,7 +56,8 @@ body {
 
 .description {
     font-size: 12px;
-    color: #BBADA0;
+    //color: #BBADA0;
+    color: #9F9595;;
     width: 130px;
     margin-top: 8px;
     margin-bottom: 8px;
@@ -74,7 +86,8 @@ li {
     float: left;
     width: 18px;
     height: 18px;
-    background: #EDE9DF;
+    //background: #EDE9DF;
+    background: $li-bg;
     margin: 1px;
     border-radius: 2px;
     font-size: 12px;
@@ -84,21 +97,25 @@ li {
 }
 
 .li-blank-true {
-    background: #FAF8EF;
+    //background: #FAF8EF;
+    background: $li_blank;
 }
 
 .li-heighlight-true {
-    background: #BE2E36;
+    //background: #BE2E36;
+    background: $period-bg;
     color: white;
 }
 
 .li-predict, .confirm-false {
-    background: #E78D93;
+    //background: #E78D93;
+    background: $predict-bg;
 }
 
 .today-true {
     margin: -1px;
-    border: #776E65 2px solid;
+    //border: #776E65 2px solid;
+    border: $today-border-color 2px solid;
     border-radius: 3px;
 }
 

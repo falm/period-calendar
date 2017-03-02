@@ -1,5 +1,5 @@
 body {
-  background: #FAF8EF;
+  background: #fff;
   margin: 0px;
   padding: 0px;
   border: 0px;
@@ -12,11 +12,11 @@ body {
   font-size: 26px;
   margin-top: 65px;
   margin-bottom: 65px;
-  color: #776E65; }
+  color: #333; }
   .title .prefix {
     font-size: 20px;
     display: block;
-    color: #a2998f; }
+    color: #9F9595; }
   .title .distance {
     display: block; }
 
@@ -27,14 +27,14 @@ body {
 
 .month-text {
   font-size: 15px;
-  color: #776E65;
+  color: #9F9595;
   text-align: right;
   margin-top: 8px;
   margin-bottom: 8px; }
 
 .description {
   font-size: 12px;
-  color: #BBADA0;
+  color: #9F9595;
   width: 130px;
   margin-top: 8px;
   margin-bottom: 8px; }
@@ -58,7 +58,7 @@ li {
   float: left;
   width: 18px;
   height: 18px;
-  background: #EDE9DF;
+  background: #DFDFDF;
   margin: 1px;
   border-radius: 2px;
   font-size: 12px;
@@ -67,18 +67,18 @@ li {
   color: #776E65; }
 
 .li-blank-true {
-  background: #FAF8EF; }
+  background: #fff; }
 
 .li-heighlight-true {
-  background: #BE2E36;
+  background: #FE8D60;
   color: white; }
 
 .li-predict, .confirm-false {
-  background: #E78D93; }
+  background: #FEAF8F; }
 
 .today-true {
   margin: -1px;
-  border: #776E65 2px solid;
+  border: #F35C20 2px solid;
   border-radius: 3px; }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
